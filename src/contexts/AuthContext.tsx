@@ -1,14 +1,20 @@
 import { createContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { LoginPayload, User } from "../types";
+import { LoginPayload } from "../types/LoginPayload";
 import { useState } from "react";
 import jwtDecode from "jwt-decode";
 import useLocalStorage from "../hooks/useLocalStorage";
 import delay from "../Utils/delay";
 import { users } from "../constants/users";
 
-interface AuthContextInterface {
-  user: User | null;
+export interface CurrentUser {
+  sub: number;
+  name: string;
+  role: "student" | "instructor";
+}
+
+export interface AuthContextInterface {
+  curUser: CurrentUser | null;
   login: ({ userName, password }: LoginPayload) => Promise<void>;
   logout: () => void;
 }
@@ -22,14 +28,14 @@ interface AuthProviderInterface {
 
 export const AuthContextProvider = ({ children }: AuthProviderInterface) => {
   const [token, setToken] = useLocalStorage<string | null>("token", null);
-  const [user, setUser] = useState<User | null>(() =>
-    token ? jwtDecode<User>(token) : null
+  const [curUser, setCurUser] = useState<CurrentUser | null>(() =>
+    token ? jwtDecode<CurrentUser>(token) : null
   );
 
   const navigate = useNavigate();
 
   const login = async ({ userName, password }: LoginPayload) => {
-    // I am writing nonsense here because the API is not ready yet
+    // I am writing nonsense here because i use mockAPI and it can't generate tokens
 
     await delay(1000); //wait 1 seconds
 
@@ -49,17 +55,17 @@ export const AuthContextProvider = ({ children }: AuthProviderInterface) => {
       : (newToken = users.instructor.token);
 
     setToken(newToken);
-    setUser(jwtDecode<User>(newToken));
+    setCurUser(jwtDecode<CurrentUser>(newToken));
   };
 
   const logout = () => {
     setToken(null);
-    setUser(null);
+    setCurUser(null);
     navigate("/");
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ curUser, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

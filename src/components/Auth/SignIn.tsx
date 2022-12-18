@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
-import { LoginPayload } from "../../types";
+import { LoginPayload } from "../../types/LoginPayload";
 
 export type SignInProps = {
   changeAuthMode: () => void;
@@ -15,7 +15,7 @@ const SignIn: React.FC<SignInProps> = ({ changeAuthMode }) => {
   const onSubmit = async (data: LoginPayload) => {
     try {
       await login(data);
-      navigate("/");
+      navigate("/courses");
     } catch (error) {
       console.log(error);
     }

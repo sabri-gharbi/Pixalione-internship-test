@@ -1,7 +1,7 @@
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
+import { NavDropdown, Row, Col } from "react-bootstrap";
 import { useAuth } from "../../hooks/useAuth";
 import { Link } from "react-router-dom";
 
@@ -10,7 +10,7 @@ export type LayoutProps = {
 };
 
 const Layout = ({ children }: LayoutProps) => {
-  const { user, logout } = useAuth();
+  const { curUser, logout } = useAuth();
   return (
     <>
       <Navbar expand="md" bg="light" variant="light">
@@ -26,11 +26,8 @@ const Layout = ({ children }: LayoutProps) => {
               </Nav.Link>
             </Nav>
             <Nav>
-              {user ? (
-                <NavDropdown
-                  title={`${user.firstName} ${user.lastName}`}
-                  id="basic-nav-dropdown"
-                >
+              {curUser ? (
+                <NavDropdown title={`${curUser.role}`} id="basic-nav-dropdown">
                   <NavDropdown.Item as={Link} to="/profile">
                     Profile
                   </NavDropdown.Item>
@@ -46,18 +43,20 @@ const Layout = ({ children }: LayoutProps) => {
         </Container>
       </Navbar>
 
-      <div className="container" style={{ height: "90vh" }}>
-        {children}
+      <div className="mb-4" style={{ minHeight: "87vh", display: "flex" }}>
+        <Container>
+          <Row>
+            <Col>{children}</Col>
+          </Row>
+        </Container>
       </div>
 
-      <footer className="text-center bg-light text-muted">
-        <div className="p-3">
-          made with &hearts; by:
-          <a className="ms-2" href="mailto:sabrigharbi99@gmail.com">
-            Sabri Gharbi
-          </a>
-        </div>
-      </footer>
+      <div className=" text-center bg-light text-muted p-3 ">
+        made with &hearts; by:
+        <a className="ms-2" href="mailto:sabrigharbi99@gmail.com">
+          Sabri Gharbi
+        </a>
+      </div>
     </>
   );
 };

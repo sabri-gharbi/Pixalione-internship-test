@@ -1,26 +1,32 @@
-import { useAuth } from "../hooks/useAuth";
+import { useState, useEffect } from "react";
+import CourseList from "../components/Courses/CourseList";
 
-const Courses = () => {
-  const { user, login, logout } = useAuth();
+import axios from "axios";
+import { Course } from "../types/Course";
+
+const Courses: React.FC = () => {
+  const [courses, setCourses] = useState<Course[]>([]);
+
+  useEffect(() => {
+    axios
+      .get<Course[]>("https://639f3fcf7aaf11ceb8966686.mockapi.io/courses")
+      .then((response) => {
+        setCourses(response.data);
+      });
+  }, []);
+
+  const handleAddCourse = (course: Course) => {
+    axios
+      .post<Course>(
+        "https://639f3fcf7aaf11ceb8966686.mockapi.io/courses",
+        course
+      )
+      .then((response) => setCourses([...courses, response.data]));
+  };
 
   return (
     <div>
-      <h5
-        onClick={() => {
-          login({ userName: "sabri", password: "hahah123" });
-        }}
-      >
-        login
-      </h5>
-      <h5
-        onClick={() => {
-          logout();
-        }}
-      >
-        logout
-      </h5>
-
-      {user ? user.role : "guest"}
+      <CourseList courses={courses} />
     </div>
   );
 };
