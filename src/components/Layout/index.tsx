@@ -13,15 +13,14 @@ const Layout = ({ children }: LayoutProps) => {
   const { user, logout } = useAuth();
   return (
     <>
-      <Navbar sticky="top" expand="md" bg="light" variant="light">
+      <Navbar expand="md" bg="light" variant="light">
         <Container>
-          <Navbar.Brand>Course Managment System</Navbar.Brand>
+          <Navbar.Brand as={Link} to="/">
+            Course Managment System
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link as={Link} to="/">
-                Home
-              </Nav.Link>
               <Nav.Link as={Link} to="/courses">
                 Courses
               </Nav.Link>
@@ -38,7 +37,7 @@ const Layout = ({ children }: LayoutProps) => {
                   <NavDropdown.Item onClick={logout}>logout</NavDropdown.Item>
                 </NavDropdown>
               ) : (
-                <Nav.Link as={Link} to="/login">
+                <Nav.Link as={Link} to="/auth">
                   login
                 </Nav.Link>
               )}
@@ -47,9 +46,11 @@ const Layout = ({ children }: LayoutProps) => {
         </Container>
       </Navbar>
 
-      <div className="container">{children}</div>
+      <div className="container" style={{ height: "90vh" }}>
+        {children}
+      </div>
 
-      <footer className="text-center bg-light text-muted fixed-bottom">
+      <footer className="text-center bg-light text-muted">
         <div className="p-3">
           made with &hearts; by:
           <a className="ms-2" href="mailto:sabrigharbi99@gmail.com">

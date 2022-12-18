@@ -8,7 +8,7 @@ interface PrivateRouteInterface {
 const PrivateRoute = ({ element }: PrivateRouteInterface) => {
   const { user } = useAuth();
 
-  return user ? element : <Navigate to="/login" />;
+  return user ? element : <Navigate to="/auth" />;
 };
 
 export default PrivateRoute;

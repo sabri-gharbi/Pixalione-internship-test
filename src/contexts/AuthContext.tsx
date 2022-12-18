@@ -4,10 +4,12 @@ import { LoginPayload, User } from "../types";
 import { useState } from "react";
 import jwtDecode from "jwt-decode";
 import useLocalStorage from "../hooks/useLocalStorage";
+import delay from "../Utils/delay";
+import { users } from "../constants/users";
 
 interface AuthContextInterface {
   user: User | null;
-  login: (payload: LoginPayload) => void;
+  login: ({ userName, password }: LoginPayload) => Promise<void>;
   logout: () => void;
 }
 const AuthContext = createContext<AuthContextInterface>(
@@ -26,13 +28,28 @@ export const AuthContextProvider = ({ children }: AuthProviderInterface) => {
 
   const navigate = useNavigate();
 
-  const login = ({ userName, password }: LoginPayload) => {
-    const newToken =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiZmlyc3ROYW1lIjoiU2FicmkiLCJsYXN0TmFtZSI6IkdoYXJiaSIsImdlbmRlciI6Im1hbGUiLCJiaXJ0aERheSI6IjExLTEyLTE5OTkiLCJyb2xlIjoiaW5zdHJ1Y3RvciIsImlhdCI6MTUxNjIzOTAyMn0.Mczotd2gsnXWgVDNpn9sbTeXdveO25SWEMYvUV7NpzI";
+  const login = async ({ userName, password }: LoginPayload) => {
+    // I am writing nonsense here because the API is not ready yet
+
+    await delay(1000); //wait 1 seconds
+
+    if (
+      (userName !== "student" && userName !== "instructor") ||
+      password !== "test1234"
+    ) {
+      const error = new Error(
+        "the username and password do not correspond to any user"
+      );
+      throw error;
+    }
+
+    let newToken = "";
+    userName === "student"
+      ? (newToken = users.student.token)
+      : (newToken = users.instructor.token);
 
     setToken(newToken);
     setUser(jwtDecode<User>(newToken));
-    navigate("/");
   };
 
   const logout = () => {
