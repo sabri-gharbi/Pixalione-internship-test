@@ -1,7 +1,6 @@
 import { Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import ProfileForm from "../components/Profile/ProfileForm";
-
 import { useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import axios from "axios";
@@ -26,10 +25,10 @@ const Porfile = () => {
         .then((response) => {
           reset(() => {
             const formattedBirthDay = formateDate(
-              new Date(response.data.birthDay)
+              new Date(response.data.birthday)
             );
 
-            return { ...response.data, birthDay: formattedBirthDay };
+            return { ...response.data, birthday: formattedBirthDay };
           });
         });
     }
@@ -45,10 +44,10 @@ const Porfile = () => {
         .then((response) => {
           reset(() => {
             const formattedBirthDay = formateDate(
-              new Date(response.data.birthDay)
+              new Date(response.data.birthday)
             );
 
-            return { ...response.data, birthDay: formattedBirthDay };
+            return { ...response.data, birthday: formattedBirthDay };
           });
 
           setIsFormDisabled(true);
@@ -57,8 +56,8 @@ const Porfile = () => {
   };
 
   return (
-    <div className="my-3 mx-5">
-      <div className="d-flex justify-content-end">
+    <div className="m-5">
+      <div className="d-flex justify-content-end mb-2">
         {isFormDisabled ? (
           <Button
             variant="warning"

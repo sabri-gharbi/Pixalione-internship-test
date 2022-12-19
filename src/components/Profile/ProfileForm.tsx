@@ -1,40 +1,44 @@
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Row, Col } from "react-bootstrap";
 import {
   UseFormHandleSubmit,
   UseFormRegister,
 } from "react-hook-form/dist/types";
 import { User } from "../../types/User";
 
-export type ProfileFormProps = {
+interface Props {
   onSubmit: (data: User) => void;
   register: UseFormRegister<User>;
   handleSubmit: UseFormHandleSubmit<User>;
   disabled?: boolean;
-};
+}
 
-const ProfileForm: React.FC<ProfileFormProps> = ({
+const ProfileForm: React.FC<Props> = ({
   onSubmit,
   register,
   handleSubmit,
-
   disabled = false,
 }) => {
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <Form
+      onSubmit={handleSubmit(onSubmit)}
+      className="p-4 shadow border border-white rounded-3"
+    >
       <fieldset disabled={disabled}>
-        <Form.Group className="mb-3">
-          <Form.Label>First Name</Form.Label>
-          <Form.Control type="text" {...register("firstName")} />
-        </Form.Group>
+        <Row className="mb-3">
+          <Form.Group as={Col}>
+            <Form.Label>First Name</Form.Label>
+            <Form.Control type="text" {...register("firstName")} />
+          </Form.Group>
 
-        <Form.Group className="mb-3">
-          <Form.Label>Last Name</Form.Label>
-          <Form.Control type="text" {...register("lastName")} />
-        </Form.Group>
+          <Form.Group as={Col}>
+            <Form.Label>Last Name</Form.Label>
+            <Form.Control type="text" {...register("lastName")} />
+          </Form.Group>
+        </Row>
 
         <Form.Group className="mb-3">
           <Form.Label>Nick Name</Form.Label>
-          <Form.Control type="text" {...register("nickName")} />
+          <Form.Control type="text" {...register("nickname")} />
         </Form.Group>
 
         <Form.Group className="mb-3">
@@ -51,11 +55,17 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
             value="female"
             {...register("gender")}
           />
+          <Form.Check
+            type="radio"
+            label="Other"
+            value="other"
+            {...register("gender")}
+          />
         </Form.Group>
 
         <Form.Group className="mb-3">
           <Form.Label>Birthday</Form.Label>
-          <Form.Control type="date" {...register("birthDay")} />
+          <Form.Control type="date" {...register("birthday")} />
         </Form.Group>
 
         <Button variant="primary" type="submit">

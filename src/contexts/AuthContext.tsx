@@ -1,6 +1,6 @@
 import { createContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { LoginPayload } from "../types/LoginPayload";
+import { SignInPayload } from "../types/SignInPayload";
 import { useState } from "react";
 import jwtDecode from "jwt-decode";
 import useLocalStorage from "../hooks/useLocalStorage";
@@ -15,7 +15,7 @@ export interface CurrentUser {
 
 export interface AuthContextInterface {
   curUser: CurrentUser | null;
-  login: ({ userName, password }: LoginPayload) => Promise<void>;
+  login: ({ userName, password }: SignInPayload) => Promise<void>;
   logout: () => void;
 }
 const AuthContext = createContext<AuthContextInterface>(
@@ -34,7 +34,7 @@ export const AuthContextProvider = ({ children }: AuthProviderInterface) => {
 
   const navigate = useNavigate();
 
-  const login = async ({ userName, password }: LoginPayload) => {
+  const login = async ({ userName, password }: SignInPayload) => {
     // I am writing nonsense here because i use mockAPI and it can't generate tokens
 
     await delay(1000); //wait 1 seconds

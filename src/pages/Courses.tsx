@@ -4,7 +4,7 @@ import CourseList from "../components/Courses/CourseList";
 import axios from "axios";
 import { Course } from "../types/Course";
 
-const Courses: React.FC = () => {
+const Courses = () => {
   const [courses, setCourses] = useState<Course[]>([]);
 
   useEffect(() => {

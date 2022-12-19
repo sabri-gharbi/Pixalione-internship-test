@@ -5,11 +5,11 @@ import { NavDropdown, Row, Col } from "react-bootstrap";
 import { useAuth } from "../../hooks/useAuth";
 import { Link } from "react-router-dom";
 
-export type LayoutProps = {
+interface Props {
   children: JSX.Element;
-};
+}
 
-const Layout = ({ children }: LayoutProps) => {
+const Layout: React.FC<Props> = ({ children }) => {
   const { curUser, logout } = useAuth();
   return (
     <>
