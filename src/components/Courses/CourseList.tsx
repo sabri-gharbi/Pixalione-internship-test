@@ -8,13 +8,17 @@ import {
   Row,
   Col,
 } from "react-bootstrap";
+import { useAuth } from "../../hooks/useAuth";
 import { Course } from "../../types/Course";
 
 interface Props {
   courses: Course[];
+  handleShowModal: () => void;
 }
 
-const CourseList: React.FC<Props> = ({ courses }) => {
+const CourseList: React.FC<Props> = ({ courses, handleShowModal }) => {
+  const { curUser } = useAuth();
+
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const coursesPerPage = 10;
@@ -39,25 +43,24 @@ const CourseList: React.FC<Props> = ({ courses }) => {
   return (
     <>
       <Form className="my-3">
-        <Row>
-          <Col>
+        <div className="d-flex justify-content-end">
+          <div className="d-flex me-auto">
             <FormControl
               type="text"
               placeholder="Search courses by name or time"
-              className="mr-sm-2"
+              className="me-2 "
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
-          </Col>
-          <Col>
             <Button variant="primary">Search</Button>
-          </Col>
-          <Col>
-            <Button variant="primary" className="ms-auto">
+          </div>
+
+          {curUser && curUser.role === "instructor" && (
+            <Button variant="primary" onClick={handleShowModal}>
               Add New Course
             </Button>
-          </Col>
-        </Row>
+          )}
+        </div>
       </Form>
 
       <Table striped bordered hover>
