@@ -1,13 +1,5 @@
 import React, { useState } from "react";
-import {
-  Form,
-  FormControl,
-  Button,
-  Table,
-  Pagination,
-  Row,
-  Col,
-} from "react-bootstrap";
+import { Form, Button, Table, Pagination, InputGroup } from "react-bootstrap";
 import { useAuth } from "../../hooks/useAuth";
 import { Course } from "../../types/Course";
 
@@ -24,8 +16,11 @@ const CourseList: React.FC<Props> = ({ courses, handleShowModal }) => {
   const coursesPerPage = 10;
 
   // Filter the courses based on the search term
-  const filteredCourses = courses.filter((course) =>
-    course.name.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredCourses = courses.filter(
+    (course) =>
+      course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      course.startTime.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      course.endTime.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   // Paginate the courses
@@ -40,51 +35,49 @@ const CourseList: React.FC<Props> = ({ courses, handleShowModal }) => {
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
+
   return (
     <>
-      <Form className="my-3">
-        <div className="d-flex justify-content-end">
-          <div className="d-flex me-auto">
-            <FormControl
+      <div className="d-flex justify-content-between mb-3">
+        <Form.Group className="w-50">
+          <InputGroup>
+            <Form.Control
               type="text"
               placeholder="Search courses by name or time"
-              className="me-2 "
-              value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <Button variant="primary">Search</Button>
-          </div>
+          </InputGroup>
+        </Form.Group>
 
-          {curUser && curUser.role === "instructor" && (
-            <Button variant="primary" onClick={handleShowModal}>
-              Add New Course
-            </Button>
-          )}
-        </div>
-      </Form>
+        {curUser && curUser.role === "instructor" && (
+          <Button variant="primary" onClick={handleShowModal}>
+            Add New Course
+          </Button>
+        )}
+      </div>
 
-      <Table striped bordered hover>
+      <Table striped bordered hover className="text-center">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Category</th>
-            <th>Subject</th>
-            <th>Start Time</th>
-            <th>End Time</th>
-            <th>Number of Students</th>
+            <th style={{ width: "15%" }}>Name</th>
+            <th style={{ width: "10%" }}>Num Students</th>
+            <th style={{ width: "15%" }}>Category</th>
+            <th style={{ width: "15%" }}>Subject</th>
+            <th style={{ width: "10%" }}>Start Time</th>
+            <th style={{ width: "10%" }}>End Time</th>
+            <th style={{ width: "25%" }}>Description</th>
           </tr>
         </thead>
         <tbody>
           {paginatedCourses.map((course) => (
             <tr key={course.name}>
               <td>{course.name}</td>
-              <td>{course.description}</td>
+              <td>{course.numStudents}</td>
               <td>{course.category}</td>
               <td>{course.subject}</td>
               <td>{course.startTime}</td>
               <td>{course.endTime}</td>
-              <td>{course.numStudents}</td>
+              <td>{course.description}</td>
             </tr>
           ))}
         </tbody>

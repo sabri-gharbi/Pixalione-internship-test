@@ -20,7 +20,7 @@ const NewCourseModal: React.FC<Props> = ({ show, onHide, onSubmit }) => {
         <Modal.Title>Create New Course</Modal.Title>
       </Modal.Header>
 
-      <Modal.Body>
+      <Modal.Body className="px-5">
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Row className="mb-2">
             <Form.Group as={Col}>
@@ -66,7 +66,7 @@ const NewCourseModal: React.FC<Props> = ({ show, onHide, onSubmit }) => {
             <Form.Control as="textarea" rows={3} {...register("description")} />
           </Form.Group>
 
-          <div className="d-flex justify-content-end">
+          <div className="d-flex justify-content-end mt-4 mb-2">
             <Button
               variant="secondary"
               onClick={() => {

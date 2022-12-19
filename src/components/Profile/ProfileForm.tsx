@@ -68,9 +68,11 @@ const ProfileForm: React.FC<Props> = ({
           <Form.Control type="date" {...register("birthday")} />
         </Form.Group>
 
-        <Button variant="primary" type="submit">
-          Update
-        </Button>
+        <div className="d-flex justify-content-center mt-5">
+          <Button variant="success" type="submit" className="w-50">
+            Update
+          </Button>
+        </div>
       </fieldset>
     </Form>
   );

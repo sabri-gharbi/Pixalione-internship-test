@@ -60,14 +60,16 @@ const Porfile = () => {
       <div className="d-flex justify-content-end mb-2">
         {isFormDisabled ? (
           <Button
-            variant="warning"
+            variant="primary"
+            className="w-25"
             onClick={() => setIsFormDisabled(!isFormDisabled)}
           >
-            Edit
+            Edit information
           </Button>
         ) : (
           <Button
-            variant="success"
+            className="w-25"
+            variant="secondary"
             onClick={() => {
               reset();
               setIsFormDisabled(!isFormDisabled);
