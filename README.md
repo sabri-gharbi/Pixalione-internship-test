@@ -14,6 +14,8 @@ password: `test1234`
 usename: `instructor` <br/>
 password: `test1234`
 
+Node: you can edit the user's information by clicking on the collapse on the top right side (student/instructor) and then on the profile link
+
 ## Deploy
 
 The easiest way to deploy my application is to use Vercel. I have already prepared a link for you: <br/>
