@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Form, Button, Table, Pagination, InputGroup } from "react-bootstrap";
+import { Form, Button, Table, InputGroup } from "react-bootstrap";
 import { useAuth } from "../../hooks/useAuth";
 import { Course } from "../../types/Course";
+import TablePagination from "../shared/TablePagination";
 
 interface Props {
   courses: Course[];
@@ -83,20 +84,12 @@ const CourseList: React.FC<Props> = ({ courses, handleShowModal }) => {
         </tbody>
       </Table>
 
-      <Pagination className="my-3">
-        {Array.from(
-          { length: Math.ceil(filteredCourses.length / coursesPerPage) },
-          (_, i) => i + 1
-        ).map((pageNumber) => (
-          <Pagination.Item
-            key={pageNumber}
-            active={pageNumber === currentPage}
-            onClick={() => handlePageChange(pageNumber)}
-          >
-            {pageNumber}
-          </Pagination.Item>
-        ))}
-      </Pagination>
+      <TablePagination<Course>
+        currentPage={currentPage}
+        handlePageChange={handlePageChange}
+        filtredItems={filteredCourses}
+        itemPerPage={10}
+      />
     </>
   );
 };
